@@ -143,12 +143,18 @@ def get_main_menu_choice():
 
 def play_game(board, ships):
     game_won = False
-    while not game_won:
+    torpedoes = 20
+    while not game_won and torpedoes != 0:
         print_board(board)
         make_player_move(board, ships)
+        torpedoes -= 1
+        print("Torpedoes left: " + str(torpedoes))
         game_won = check_win(board)
         if game_won:
             print("All ships sunk!")
+            print()
+        if torpedoes == 0:
+            print("GAME OVER! You ran out of ammo.")
             print()
 
 
