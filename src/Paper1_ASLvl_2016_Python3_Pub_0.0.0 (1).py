@@ -9,9 +9,15 @@ import random
 
 
 def get_row_column():
-    print()
-    column = int(input("Please enter column: "))
-    row = int(input("Please enter row: "))
+    valid = False
+    while not valid:
+        print()
+        column = int(input("Please enter column: "))
+        row = int(input("Please enter row: "))
+        if column > 9 or column < 0 or row > 9 or row < 0:
+            print("Sorry, that is outside the target area. Please select again.")
+        else:
+            valid = True
     print()
     return row, column
 
