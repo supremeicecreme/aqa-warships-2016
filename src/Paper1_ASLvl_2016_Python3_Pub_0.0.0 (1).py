@@ -130,6 +130,7 @@ def display_menu():
     print()
     print("1. Start new game")
     print("2. Load training game")
+    print("3. Load saved game")
     print("9. Quit")
     print()
 
@@ -172,3 +173,5 @@ if __name__ == "__main__":
         if MenuOption == 2:
             load_game(training_game, Board)
             play_game(Board, Ships)
+        if MenuOption == 3:
+            print("OPTION 3 EXECUTED")
