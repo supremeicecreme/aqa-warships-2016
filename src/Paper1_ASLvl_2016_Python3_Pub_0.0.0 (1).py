@@ -53,6 +53,17 @@ def load_game(filename, board):
     board_file.close()
 
 
+def save_game(filename, board):
+    board_file = open(filename, "w")
+    board_save = ""
+    for Row in range(10):
+        for Column in range(10):
+            board_save += board[Row][Column]
+        board_save += "\n"
+    board_file.write(board_save)
+    board_file.close()
+
+
 def place_random_ships(board, ships):
     for Ship in ships:
         valid = False
@@ -165,6 +176,7 @@ if __name__ == "__main__":
     while not MenuOption == 9:
         Board = set_up_board()
         Ships = [["Aircraft Carrier", 5], ["Battleship", 4], ["Submarine", 3], ["Destroyer", 3], ["Patrol Boat", 2]]
+        print(Board)
         display_menu()
         MenuOption = get_main_menu_choice()
         if MenuOption == 9:
