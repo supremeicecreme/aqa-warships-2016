@@ -109,7 +109,7 @@ def validate_boat_position(board, ship, row, column, orientation):
 def check_win(board):
     for Row in range(10):
         for Column in range(10):
-            if board[Row][Column] in ["A", "B", "S", "D", "P"]:
+            if board[Row][Column] in ["A", "B", "S", "D", "P", "F"]:
                 return False
     return True
 
@@ -127,7 +127,7 @@ def print_board(board):
         for Column in range(10):
             if board[Row][Column] == "-":
                 print(" ", end="")
-            elif board[Row][Column] in ["A", "B", "S", "D", "P"]:
+            elif board[Row][Column] in ["A", "B", "S", "D", "P", "F"]:
                 print(" ", end="")
             else:
                 print(board[Row][Column], end="")
@@ -200,7 +200,12 @@ if __name__ == "__main__":
     MenuOption = 0
     while not MenuOption == 9:
         Board = set_up_board()
-        Ships = [["Aircraft Carrier", 5], ["Battleship", 4], ["Submarine", 3], ["Destroyer", 3], ["Patrol Boat", 2]]
+        Ships = [["Aircraft Carrier",   5],
+                 ["Battleship",         4],
+                 ["Submarine",          3],
+                 ["Destroyer",          3],
+                 ["Patrol Boat",        2],
+                 ["Frigate",            3]]
         display_menu()
         MenuOption = get_main_menu_choice()
         if MenuOption == 9:
