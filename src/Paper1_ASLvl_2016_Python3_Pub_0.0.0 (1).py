@@ -178,4 +178,6 @@ if __name__ == "__main__":
             load_game(training_game, Board)
             play_game(Board, Ships)
         if MenuOption == 3:
-            print("OPTION 3 EXECUTED")
+            game_to_load = input("Enter filename to open: ")
+            load_game(game_to_load, Board)
+            play_game(Board, Ships)
