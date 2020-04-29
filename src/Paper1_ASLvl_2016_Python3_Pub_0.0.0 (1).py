@@ -167,6 +167,10 @@ if __name__ == "__main__":
         Ships = [["Aircraft Carrier", 5], ["Battleship", 4], ["Submarine", 3], ["Destroyer", 3], ["Patrol Boat", 2]]
         display_menu()
         MenuOption = get_main_menu_choice()
+        if MenuOption == 9:
+            check_end = input("Are you sure? (y/n): ").lower()
+            if check_end == "n":
+                MenuOption = 0
         if MenuOption == 1:
             place_random_ships(Board, Ships)
             play_game(Board, Ships)
