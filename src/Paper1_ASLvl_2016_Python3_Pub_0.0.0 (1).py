@@ -136,12 +136,33 @@ def print_board(board):
         print()
 
 
+def print_test_board(board):
+    print()
+    print("The board looks like this: ")
+    print()
+    print(" ", end="")
+    for Column in range(10):
+        print(" " + str(Column) + "  ", end="")
+    print()
+    for Row in range(10):
+        print(str(Row) + " ", end="")
+        for Column in range(10):
+            if board[Row][Column] == "-":
+                print(" ", end="")
+            else:
+                print(board[Row][Column], end="")
+            if Column != 9:
+                print(" | ", end="")
+        print()
+
+
 def display_menu():
     print("MAIN MENU")
     print()
     print("1. Start new game")
     print("2. Load training game")
     print("3. Load saved game")
+    print("4. Board Test")
     print("9. Quit")
     print()
 
@@ -196,3 +217,6 @@ if __name__ == "__main__":
             game_to_load = input("Enter filename to open: ")
             load_game(game_to_load, Board)
             play_game(Board, Ships)
+        if MenuOption == 4:
+            place_random_ships(Board, Ships)
+            print_test_board(Board)
