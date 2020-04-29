@@ -161,6 +161,10 @@ def play_game(board, ships):
         make_player_move(board, ships)
         torpedoes -= 1
         print("Torpedoes left: " + str(torpedoes))
+        check_save = input("Would you like to save the game (Y/N): ").lower()
+        if check_save == "y":
+            file_name = input("Enter file name to save as: ")
+            save_game(file_name, Board)
         game_won = check_win(board)
         if game_won:
             print("All ships sunk!")
@@ -176,7 +180,6 @@ if __name__ == "__main__":
     while not MenuOption == 9:
         Board = set_up_board()
         Ships = [["Aircraft Carrier", 5], ["Battleship", 4], ["Submarine", 3], ["Destroyer", 3], ["Patrol Boat", 2]]
-        print(Board)
         display_menu()
         MenuOption = get_main_menu_choice()
         if MenuOption == 9:
