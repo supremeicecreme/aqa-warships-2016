@@ -113,6 +113,22 @@ def place_random_ships(board, ships):
         place_ship(board, Ship, row, column, orientation)
 
 
+def place_ships_manually(board, ships):
+    for Ship in ships:
+        valid = False
+        while not valid:
+            row = int(input("Please enter starting row for " + Ship[0] + ": "))
+            column = int(input("Please enter starting column for " + Ship[0] + ": "))
+            hvd = input("Please enter orientation of " + Ship[0] + " (horizontal/vertical/diagonal): ")
+            orientation = hvd[0].lower()
+            valid = validate_boat_position(board, Ship, row, column, orientation)
+            if not valid:
+                print("The co-ordinates entered were not valid. Please try again.\n")
+        print("You have successfully placed the " + Ship[0])
+        place_ship(board, Ship, row, column, orientation)
+        real_board(board)
+
+
 def place_ship(board, ship, row, column, orientation):
     if orientation == "v":
         for Scan in range(ship[1]):
@@ -205,6 +221,7 @@ def display_menu():
     print("2. Load training game")
     print("3. Load saved game")
     print("4. Board Test")
+    print("5. Manually place ships")
     print("9. Quit")
     print()
 
@@ -266,3 +283,6 @@ if __name__ == "__main__":
         if MenuOption == 4:
             place_random_ships(Board, Ships)
             real_board(Board)
+        if MenuOption == 5:
+            place_ships_manually(Board, Ships)
+            play_game(Board, Ships)
