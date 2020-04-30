@@ -35,10 +35,16 @@ def make_player_move(board, ships):
             print("All quiet nearby.")
     else:
         ship_hit = ""
+        pieces_left = ""
         for Ship in ships:
             if board[row][column] == Ship[0][0]:
+                Ship[1] -= 1
                 ship_hit = Ship[0]
+                pieces_left = Ship[1]
         print("Hit " + ship_hit + " at (" + str(column) + "," + str(row) + ").")
+        print("There are " + str(pieces_left) + " pieces of " + ship_hit + " left")
+        if pieces_left == 0:
+            print("YOU SANK THE " + ship_hit.upper())
         board[row][column] = "h"
 
 
