@@ -178,7 +178,7 @@ def print_board(board):
         print()
 
 
-def print_test_board(board):
+def real_board(board):
     print()
     print("The board looks like this: ")
     print()
@@ -265,4 +265,4 @@ if __name__ == "__main__":
             play_game(Board, Ships)
         if MenuOption == 4:
             place_random_ships(Board, Ships)
-            print_test_board(Board)
+            real_board(Board)
