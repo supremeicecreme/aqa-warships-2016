@@ -29,9 +29,34 @@ def make_player_move(board, ships):
     elif board[row][column] == "-":
         print("Sorry, (" + str(column) + "," + str(row) + ") is a miss.")
         board[row][column] = "m"
+        if radar_scan(board, row, column):
+            print("Enemy near!")
+        else:
+            print("All quiet nearby.")
     else:
-        print("Hit at (" + str(column) + "," + str(row) + ").")
+        ship_hit = ""
+        for Ship in ships:
+            if board[row][column] == Ship[0][0]:
+                ship_hit = Ship[0]
+        print("Hit " + ship_hit + " at (" + str(column) + "," + str(row) + ").")
         board[row][column] = "h"
+
+
+def radar_scan(board, row, column):
+    left_slice, right_slice, top_slice, bottom_slice = row-1, row+1, column-1, column+1
+    if row == 0:
+        left_slice = row
+    elif row == 9:
+        right_slice = row
+    if column == 0:
+        top_slice = column
+    elif column == 9:
+        bottom_slice = column
+    for row_scan in range(left_slice, right_slice):
+        for column_scan in range(top_slice, bottom_slice):
+            if board[row][column] != "-" or board[row][column] != "m":
+                return True
+    return False
 
 
 def set_up_board():
@@ -102,8 +127,8 @@ def validate_boat_position(board, ship, row, column, orientation):
         elif orientation == "h":
             for Scan in range(ship[1]):
                 if board[row][column + Scan] != "-":
-                    return False
-    return True
+                    return True
+    return False
 
 
 def check_win(board):
