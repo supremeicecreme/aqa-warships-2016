@@ -95,11 +95,13 @@ def place_random_ships(board, ships):
         while not valid:
             row = random.randint(0, 9)
             column = random.randint(0, 9)
-            h_or_v = random.randint(0, 1)
-            if h_or_v == 0:
+            hvd = random.randint(0, 2)
+            if hvd == 0:
                 orientation = "v"
-            else:
+            elif hvd == 1:
                 orientation = "h"
+            else:
+                orientation = "d"
             valid = validate_boat_position(board, Ship, row, column, orientation)
         print("Computer placing the " + Ship[0])
         place_ship(board, Ship, row, column, orientation)
@@ -112,12 +114,17 @@ def place_ship(board, ship, row, column, orientation):
     elif orientation == "h":
         for Scan in range(ship[1]):
             board[row][column + Scan] = ship[0][0]
+    elif orientation == "d":
+        for Scan in range(ship[1]):
+            board[row + Scan][column + Scan] = ship[0][0]
 
 
 def validate_boat_position(board, ship, row, column, orientation):
     if orientation == "v" and row + ship[1] > 10:
         return False
     elif orientation == "h" and column + ship[1] > 10:
+        return False
+    elif orientation == "d" and (column + ship[1] > 10 or row + ship[1] > 10):
         return False
     else:
         if orientation == "v":
@@ -127,8 +134,12 @@ def validate_boat_position(board, ship, row, column, orientation):
         elif orientation == "h":
             for Scan in range(ship[1]):
                 if board[row][column + Scan] != "-":
-                    return True
-    return False
+                    return False
+        elif orientation == "d":
+            for Scan in range(ship[1]):
+                if board[row + Scan][column + Scan] != "-":
+                    return False
+    return True
 
 
 def check_win(board):
@@ -193,8 +204,7 @@ def display_menu():
 
 
 def get_main_menu_choice():
-    print("Please enter your choice: ", end="")
-    choice = int(input())
+    choice = int(input("Please enter your choice: "))
     print()
     return choice
 
@@ -225,12 +235,12 @@ if __name__ == "__main__":
     MenuOption = 0
     while not MenuOption == 9:
         Board = set_up_board()
-        Ships = [["Aircraft Carrier",   5],
-                 ["Battleship",         4],
-                 ["Submarine",          3],
-                 ["Destroyer",          3],
-                 ["Patrol Boat",        2],
-                 ["Frigate",            3]]
+        Ships = [["Aircraft Carrier", 5],
+                 ["Battleship", 4],
+                 ["Submarine", 3],
+                 ["Destroyer", 3],
+                 ["Patrol Boat", 2],
+                 ["Frigate", 3]]
         display_menu()
         MenuOption = get_main_menu_choice()
         if MenuOption == 9:
