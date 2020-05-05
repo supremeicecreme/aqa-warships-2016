@@ -75,6 +75,15 @@ def set_up_board():
     return board
 
 
+def set_up_scores():
+    scores = [["George", 17],
+             ["Paul", 19],
+             ["John", 23],
+             ["Ringo", 25],
+             ["Bryan", 35]]
+    return scores
+
+
 def load_game(filename, board):
     board_file = open(filename, "r")
     for Row in range(10):
@@ -222,6 +231,7 @@ def display_menu():
     print("3. Load saved game")
     print("4. Board Test")
     print("5. Manually place ships")
+    print("6. Display high-score table")
     print("9. Quit")
     print()
 
@@ -253,9 +263,43 @@ def play_game(board, ships):
             print()
 
 
+def display_high_scores(scores):
+    player_name = input("Type your name: ")
+    if player_name != "":
+        player_score = int(input("Type your score: "))
+        if player_score <= scores[4][1]:
+            scores[4][0] = player_name
+            scores[4][1] = player_score
+    bub_sort_scores(scores)
+    # Make a nice table
+    col1_width = 12
+    col2_width = 4
+    hr = "-" * (col1_width + col2_width + 3)
+    print(hr)
+    for score_entry in scores:
+        col1_gap_end = " " * (col1_width - (len(score_entry[0]) + 1))
+        if score_entry[1] >= 10:
+            width_col2_content = 2
+        else:
+            width_col2_content = 1
+        col2_gap_end = " " * (col2_width - (width_col2_content + 1))
+        print("| " + score_entry[0] + col1_gap_end + "| " + str(score_entry[1]) + col2_gap_end + "|\n" + hr)
+
+
+def bub_sort_scores(scores):
+    changes_made = True
+    while changes_made:
+        changes_made = False
+        for i in range(len(scores) - 1):
+            if scores[i][1] > scores[i+1][1]:
+                scores[i], scores[i+1] = scores[i+1], scores[i]
+                changes_made = True
+
+
 if __name__ == "__main__":
     training_game = "Training.txt"
     MenuOption = 0
+    score = set_up_scores()
     while not MenuOption == 9:
         Board = set_up_board()
         Ships = [["Aircraft Carrier", 5],
@@ -286,3 +330,6 @@ if __name__ == "__main__":
         if MenuOption == 5:
             place_ships_manually(Board, Ships)
             play_game(Board, Ships)
+        if MenuOption == 6:
+            print("High score table:\n")
+            display_high_scores(score)
