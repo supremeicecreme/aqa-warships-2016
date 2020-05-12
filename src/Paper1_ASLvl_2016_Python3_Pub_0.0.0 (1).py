@@ -51,6 +51,7 @@ def make_player_move(board, ships):
 def make_player_torpedo_move(board, ships):
     row, column = get_row_column()
     while row >= 0 and (board[row][column] == "m" or board[row][column] == "-"):
+        ship_hit = ""
         board[row][column] = "m"
         row -= 1
     if board[row][column] != "m" and board[row][column] != "-":
@@ -67,6 +68,8 @@ def make_player_torpedo_move(board, ships):
         board[row][column] = "h"
         print("Hit {0} at ({1}, {2}).".format(ship_hit, str(column), str(row)))
         print("There are {0} pieces of {1} left.".format(str(pieces_left), ship_hit))
+    if ship_hit == "":
+        print("No ships were hit.")
 
 
 def radar_scan(board, row, column):
@@ -268,10 +271,21 @@ def get_main_menu_choice():
 def play_game(board, ships):
     game_won = False
     torpedoes = 20
+    moving_torpedo_used = False
     while not game_won and torpedoes != 0:
         print_board(board)
-        make_player_move(board, ships)
-        torpedoes -= 1
+        if not moving_torpedo_used:
+            moving_torpedo = input("Fire a moving torpedo? (Y/N): ").lower()
+            if moving_torpedo == "y":
+                make_player_torpedo_move(board, ships)
+                torpedoes -= 1
+                moving_torpedo_used = True
+            elif moving_torpedo == "n":
+                make_player_move(board, ships)
+                torpedoes -= 1
+        else:
+            make_player_move(board, ships)
+            torpedoes -= 1
         print("Torpedoes left: " + str(torpedoes))
         check_save = input("Would you like to save the game (Y/N): ").lower()
         if check_save == "y":
