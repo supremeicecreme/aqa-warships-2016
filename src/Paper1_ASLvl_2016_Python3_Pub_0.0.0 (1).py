@@ -41,15 +41,36 @@ def make_player_move(board, ships):
                 Ship[1] -= 1
                 ship_hit = Ship[0]
                 pieces_left = Ship[1]
-        print("Hit " + ship_hit + " at (" + str(column) + "," + str(row) + ").")
-        print("There are " + str(pieces_left) + " pieces of " + ship_hit + " left")
+        print("Hit {0} at ({1}, {2}).".format(ship_hit, str(column), str(row)))
+        print("There are {0} pieces of {1} left.".format(str(pieces_left), ship_hit))
         if pieces_left == 0:
             print("YOU SANK THE " + ship_hit.upper())
         board[row][column] = "h"
 
 
+def make_player_torpedo_move(board, ships):
+    row, column = get_row_column()
+    while row >= 0 and (board[row][column] == "m" or board[row][column] == "-"):
+        board[row][column] = "m"
+        row -= 1
+    if board[row][column] != "m" and board[row][column] != "-":
+        ship_hit = ""
+        pieces_left = ""
+        for Ship in ships:
+            if board[row][column] == "h":
+                ship_hit = "previously hit ship"
+                pieces_left = "UNKNOWN"
+            elif board[row][column] == Ship[0][0]:
+                Ship[1] -= 1
+                ship_hit = Ship[0]
+                pieces_left = Ship[1]
+        board[row][column] = "h"
+        print("Hit {0} at ({1}, {2}).".format(ship_hit, str(column), str(row)))
+        print("There are {0} pieces of {1} left.".format(str(pieces_left), ship_hit))
+
+
 def radar_scan(board, row, column):
-    left_slice, right_slice, top_slice, bottom_slice = row-1, row+1, column-1, column+1
+    left_slice, right_slice, top_slice, bottom_slice = row - 1, row + 1, column - 1, column + 1
     if row == 0:
         left_slice = row
     elif row == 9:
@@ -77,10 +98,10 @@ def set_up_board():
 
 def set_up_scores():
     scores = [["George", 17],
-             ["Paul", 19],
-             ["John", 23],
-             ["Ringo", 25],
-             ["Bryan", 35]]
+              ["Paul", 19],
+              ["John", 23],
+              ["Ringo", 25],
+              ["Bryan", 35]]
     return scores
 
 
@@ -224,16 +245,18 @@ def real_board(board):
 
 
 def display_menu():
+    menu_options = ["Start new game",
+                    "Load training game",
+                    "Load saved game",
+                    "Board Test",
+                    "Manually place ships",
+                    "Display high-score table"]
+    menu_option_count = 1
     print("MAIN MENU")
-    print()
-    print("1. Start new game")
-    print("2. Load training game")
-    print("3. Load saved game")
-    print("4. Board Test")
-    print("5. Manually place ships")
-    print("6. Display high-score table")
-    print("9. Quit")
-    print()
+    for menu_option in menu_options:
+        print(str(menu_option_count) + ". " + menu_option)
+        menu_option_count += 1
+    print("9. Quit\n")
 
 
 def get_main_menu_choice():
@@ -291,8 +314,8 @@ def bub_sort_scores(scores):
     while changes_made:
         changes_made = False
         for i in range(len(scores) - 1):
-            if scores[i][1] > scores[i+1][1]:
-                scores[i], scores[i+1] = scores[i+1], scores[i]
+            if scores[i][1] > scores[i + 1][1]:
+                scores[i], scores[i + 1] = scores[i + 1], scores[i]
                 changes_made = True
 
 
